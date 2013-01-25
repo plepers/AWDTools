@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     3 juil. 2012 10:54:33                                                        
+
+     AWD Tools tests
+     description
+                   
+     lepersp                                                                
+     ====================================================================== -->
+<project name="AWD Tools tests" default="merge_geoms test" basedir="../">
+
+	<description>
+            description
+    </description>
+
+
+	<!-- ================================= 
+          target: merge_geoms test              
+         ================================= -->
+	<target name="merge_geoms test" depends="init" description="description">
+
+		<exec executable="${little_endian_exe}" dir="${basedir}/tests">
+			<arg line="-i assets/juke.AWD" />
+			</exec>
+		<exec executable="${merge_geoms_exe}" dir="${basedir}/tests">
+			<arg line="-i assets/juke.AWD" />
+			<arg line="-o output/juke_merged.AWD" />
+			<arg line="-r Car" />
+			<arg line="-m door_rl" />
+			<arg line="-m door_fl" />
+			<arg line="-m door_rr" />
+			<arg line="-m door_fr" />	
+			<arg line="-m GlassFront" />	
+			<arg line="-m GlassRear" />	
+			<arg line="-m Interior" />	
+			<arg line="-m door_rl_interior" />
+			<arg line="-m door_fl_interior" />
+			<arg line="-m door_rr_interior" />
+			<arg line="-m door_fr_interior" />	
+		
+		</exec>
+
+		<length property="inputlength"
+		        file="${basedir}/tests/assets/juke.AWD" />
+		<length property="outputlength"
+		        file="${basedir}/tests/output/juke_merged.AWD" />
+		
+
+		<copy file="${basedir}/tests/output/juke_merged.AWD"
+		      tofile="D:\work\workspaces\as3\Nissan_CC_3D\resources\fragments\juke\sources\juke.AWD">
+		</copy>
+
+	</target>
+
+
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: init                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="init">
+
+		<condition property="merge_geoms_exe"
+		           value="${basedir}/bin/osx/merge_geoms">
+			<os family="mac" />
+		</condition>
+		<condition property="merge_geoms_exe"
+		           value="${basedir}/bin/win/merge_geoms.exe">
+			<os family="windows" />
+		</condition>
+		
+		<condition property="little_endian_exe"
+		           value="${basedir}/bin/osx/awd_little_endian">
+			<os family="mac" />
+		</condition>
+		<condition property="little_endian_exe"
+		           value="${basedir}/bin/win/awd_little_endian.exe">
+			<os family="windows" />
+		</condition>
+
+	</target>
+
+</project>

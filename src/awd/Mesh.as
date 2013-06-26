@@ -32,7 +32,7 @@ package awd {
 			var s : uint = bytes.position + 4*oldMatLen;
 			var l : uint = (block.bounds.position + block.bounds.length ) - s;
 			
-			if( oldMatLen != materials.length ) {
+//			if( oldMatLen != materials.length ) {
 				
 				
 				var oldBytes : ByteArray = bytes;
@@ -52,7 +52,7 @@ package awd {
 				
 				block.bounds.length = bytes.length;
 
-			}
+//			}
 			
 		}
 		

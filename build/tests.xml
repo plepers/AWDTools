@@ -51,6 +51,48 @@
 		</copy>
 
 	</target>
+	
+	<!-- ================================= 
+          target: clean_materials test              
+         ================================= -->
+	<target name="clean_materials test" depends="init" description="description">
+
+		<exec executable="${little_endian_exe}" dir="${basedir}/tests">
+			<arg line="-i assets/juke.AWD" />
+			</exec>
+		<exec executable="${clean_materials_exe}" dir="${basedir}/tests">
+			<arg line="-i assets/juke.AWD" />
+			<arg line="-o output/juke_mat_cleaned.AWD" />
+		
+		</exec>
+
+		<length property="inputlength"
+		        file="${basedir}/tests/assets/juke.AWD" />
+		<length property="outputlength"
+		        file="${basedir}/tests/output/juke_merged.AWD" />
+		
+
+		<exec executable="${dump_awd_exe}" dir="${basedir}/tests">
+			<arg line="-i output/juke_mat_cleaned.AWD" />
+		</exec>
+
+	</target>
+
+	
+	<!-- ================================= 
+          target: dump_awd test              
+         ================================= -->
+	<target name="dump_awd test" depends="init" description="description">
+
+		<exec executable="${little_endian_exe}" dir="${basedir}/tests">
+			<arg line="-i assets/juke.AWD" />
+		</exec>
+		<exec executable="${dump_awd_exe}" dir="${basedir}/tests">
+			<arg line="-i output/juke_merged.AWD" />
+		</exec>
+
+
+	</target>
 
 
 
@@ -65,6 +107,24 @@
 		</condition>
 		<condition property="merge_geoms_exe"
 		           value="${basedir}/bin/win/merge_geoms.exe">
+			<os family="windows" />
+		</condition>
+
+		<condition property="clean_materials_exe"
+		           value="${basedir}/bin/osx/clean_materials">
+			<os family="mac" />
+		</condition>
+		<condition property="clean_materials_exe"
+		           value="${basedir}/bin/win/clean_materials.exe">
+			<os family="windows" />
+		</condition>
+
+		<condition property="dump_awd_exe"
+		           value="${basedir}/bin/osx/dump_awd">
+			<os family="mac" />
+		</condition>
+		<condition property="dump_awd_exe"
+		           value="${basedir}/bin/win/dump_awd.exe">
 			<os family="windows" />
 		</condition>
 		

@@ -83,6 +83,7 @@ package awd {
 			_blocks = new Vector.<AWDBlock>;
 			_idsMap = new Vector.<uint>();
 			_blocks[0] = new AWDBlock;
+			_blocks[0].bounds = new BytesBounds(0, 0, null);
 			_idsMap[0] = 0;
 			
 			_version = [];
@@ -342,6 +343,7 @@ package awd {
 				materials_parsed++;
 			}
 			
+//			trace( "awd.BaseParser - parseMeshInstance -- geom", geom, pid );
 			
 			if ( ( materialIds.length == 1 || geom.num_subs == 1) && (  materialIds.length & geom.num_subs )>0 ) {
 				
@@ -689,7 +691,7 @@ package awd {
 
 		public function findMesh(name : String) : Mesh {
 			for (var j : int = 1; j < _blocks.length; j++) {
-				if ( _blocks[j].data && _blocks[j].data as Mesh && _blocks[j].data.name == name )
+				if ( _blocks[j].data && _blocks[j].data is Mesh && _blocks[j].data.name == name )
 					return _blocks[j].data as Mesh;
 			}
 			return null;
@@ -697,7 +699,7 @@ package awd {
 
 		public function findContainer(name : String) : Container {
 			for (var j : int = 1; j < _blocks.length; j++) {
-				if ( _blocks[j].data && _blocks[j].data as Container && _blocks[j].data.name == name )
+				if ( _blocks[j].data && _blocks[j].data is Container && _blocks[j].data.name == name )
 					return _blocks[j].data as Container;
 			}
 			return null;

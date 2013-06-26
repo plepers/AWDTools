@@ -11,6 +11,7 @@ package awd {
 	 */
 	public class MergeGeoms extends BaseParser {
 
+		private const DEFAULT_COMPOSITE_GROUP : uint = 99;
 		private const LIMIT : uint = 196605;
 		private var _receiver : String;
 		private var _meshes : Vector.<String>;
@@ -283,7 +284,14 @@ package awd {
 			var dbi : ByteArray;
 			
 
-			if ( dsub.indicesBounds ) {
+			if ( dsub.indicesBounds && sub.indicesBounds ) {
+				
+				if( sub.indicesBounds == null ) {
+					trace( "awd.MergeGeoms - appendSubGeom -- " );
+					trace( "	source : ", source.mesh.name );
+					trace( "	dest   : ", dest.mesh.name );
+				}
+				
 				numIndices = sub.indicesBounds.length >> 1;
 				dsub.indicesBounds.seekToEnd();
 				sub.indicesBounds.seekToStart();
@@ -299,8 +307,17 @@ package awd {
 				
 				dsub.indicesBounds.length += sub.indicesBounds.length;
 			} else {
+				
+				
+				// regular destination but composite source
+				// convert dest to composite first
+				if( dsub.indicesBounds ) {
+					dsub.compositeData = new CompositeData();
+					dsub.compositeData.addGroup(dsub.indicesBounds, DEFAULT_COMPOSITE_GROUP );
+					dsub.indicesBounds = null;
+				}
+				
 				// composite destination
-
 				var compositeSource : CompositeData = sub.compositeData;
 				var compositeDest : CompositeData = dsub.compositeData;
 
@@ -313,7 +330,7 @@ package awd {
 				// trace( "awd.MergeGeoms - appendSubGeom --d  groupIds ", compositeDest.groupIds);
 
 				if ( compositeSource == null ) {
-					gid = 99;
+					gid = DEFAULT_COMPOSITE_GROUP;
 					destBounds = compositeDest.getGroup(gid);
 					srcBounds = sub.indicesBounds;
 					
